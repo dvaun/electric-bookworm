@@ -1,0 +1,35 @@
+<div class="col-xs-12 col-s-12 col-md-12 col-lg-12">
+	<h1 style="position: relative; left: 0; margin-left: 50%">
+		Available Rooms
+	</h1>
+</div>
+<div class="row">
+	<div *ngFor="let room of rooms" [class.selected]="room === selectedRoom"
+		(click)="onSelect(room)" class="col-xs-6 col-s-6 col-md-6 col-lg-6" style="display: inline-block;">
+		<div class="card">
+          <div class="card-header">
+              {{room.name}}
+          </div>
+          <div class="card-block">
+              <div class="card-media-block">
+                  <div class="card-media-description">
+                      <span class="card-media-title">
+                          Cost: ${{room.price}}
+                      </span>
+                      <span class="card-media-text">
+                          Available locations:
+                          <ul class="list">
+                          	<li *ngFor="let location of room.locations">
+                          		{{location}}
+                          	</li>
+                          </ul>
+                      </span>
+                  </div>
+              </div>
+          </div>
+          <div class="card-footer">
+              <button class="btn btn-sm btn-link" [routerLink]="['/calendar','Study Room']">Reserve a time</button>
+          </div>
+      </div>
+	</div>
+</div>

@@ -1,0 +1,245 @@
+<script type="text/JavaScript" language="JavaScript">
+
+/* Preload images script */
+var myimages=new Array()
+
+function preloadimages(){
+	for (i=0;i<preloadimages.arguments.length;i++){
+		myimages[i]=new Image();
+		myimages[i].src=preloadimages.arguments[i];
+	}
+}
+
+
+/* The path of images to be preloaded inside parenthesis: (Extend list as desired.) */
+preloadimages("images/PrevYrOff40x40.jpg","images/PrevYrOn40x40.jpg","images/PrevMoOff40x40.jpg","images/PrevMoOn40x40.jpg","images/NextYrOff40x40.jpg","images/NextYrOn40x40.jpg","images/NextMoOff40x40.jpg","images/NextMoOn40x40.jpg");
+
+
+/***************************************************************************************
+	JavaScript Calendar - Digital Christian Design
+	//Script featured on and available at JavaScript Kit: http://www.javascriptkit.com
+	// Functions
+		changedate(): Moves to next or previous month or year, or current month depending on the button clicked.
+		createCalendar(): Renders the calander into the page with links for each to fill the date form filds above.
+			
+***************************************************************************************/
+
+var thisDate = 1;							// Tracks current date being written in calendar
+var wordMonth = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+var today = new Date();							// Date object to store the current date
+var todaysDay = today.getDay() + 1;					// Stores the current day number 1-7
+var todaysDate = today.getDate();					// Stores the current numeric date within the month
+var todaysMonth = today.getUTCMonth() + 1;				// Stores the current month 1-12
+var todaysYear = today.getFullYear();					// Stores the current year
+var monthNum = todaysMonth;						// Tracks the current month being displayed
+var yearNum = todaysYear;						// Tracks the current year being displayed
+var firstDate = new Date(String(monthNum)+"/1/"+String(yearNum));	// Object Storing the first day of the current month
+var firstDay = firstDate.getUTCDay();					// Tracks the day number 1-7 of the first day of the current month
+var lastDate = new Date(String(monthNum+1)+"/0/"+String(yearNum));	// Tracks the last date of the current month
+var numbDays = 0;
+var calendarString = "";
+var eastermonth = 0;
+var easterday = 0;
+
+var sday;
+var smonth;
+var syear;
+
+function changedate(buttonpressed) {
+	if (buttonpressed == "prevyr") yearNum--;
+	else if (buttonpressed == "nextyr") yearNum++;
+	else if (buttonpressed == "prevmo") monthNum--;
+	else if (buttonpressed == "nextmo") monthNum++;
+	else  if (buttonpressed == "return") { 
+		monthNum = todaysMonth;
+		yearNum = todaysYear;
+	}
+
+	if (monthNum == 0) {
+		monthNum = 12;
+		yearNum--;
+	}
+	else if (monthNum == 13) {
+		monthNum = 1;
+		yearNum++
+	}
+
+	lastDate = new Date(String(monthNum+1)+"/0/"+String(yearNum));
+	numbDays = lastDate.getDate();
+	firstDate = new Date(String(monthNum)+"/1/"+String(yearNum));
+	firstDay = firstDate.getDay() + 1;
+	createCalendar();
+	return;
+}
+
+function createCalendar() {
+	calendarString = '';
+	var daycounter = 0;
+	calendarString += '<table width="312" border="1" cellpadding="0" cellspacing="1">';
+	calendarString += '<tr>';
+	calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevYr.src=\'images\/PrevYrOn40x40\.jpg\';\" onMouseOut=\"document.PrevYr.src=\'images\/PrevYrOff40x40\.jpg\';\" onClick=\"changedate(\'prevyr\')\"><img name=\"PrevYr\" src=\"images\/PrevYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Yr\"\/><\/a><\/td>';
+	calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevMo.src=\'images\/PrevMoOn40x40\.jpg\';\" onMouseOut=\"document.PrevMo.src=\'images\/PrevMoOff40x40\.jpg\';\" onClick=\"changedate(\'prevmo\')\"><img name=\"PrevMo\" src=\"images\/PrevMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Mo\"\/><\/a><\/td>';
+	calendarString += '<td bgcolor=\"#C8C896\" align=\"center\" valign=\"center\" width=\"128\" height=\"40\" colspan=\"3\"><b>' + wordMonth[monthNum-1] + '&nbsp;&nbsp;' + yearNum + '<\/b><\/td>';
+	calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextMo.src=\'images\/NextMoOn40x40\.jpg\';\" onMouseOut=\"document.NextMo.src=\'images\/NextMoOff40x40\.jpg\';\" onClick=\"changedate(\'nextmo\')\"><img name=\"NextMo\" src=\"images\/NextMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Mo\"\/><\/a><\/td>';
+	calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextYr.src=\'images\/NextYrOn40x40\.jpg\';\" onMouseOut=\"document.NextYr.src=\'images\/NextYrOff40x40\.jpg\';\" onClick=\"changedate(\'nextyr\')\"><img name=\"NextYr\" src=\"images\/NextYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Yr\"\/><\/a><\/td>';
+	calendarString += '<\/tr>';
+	calendarString += '<tr>';
+	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Sun<\/td>';
+	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Mon<\/td>';
+	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Tue<\/td>';
+	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Wed<\/td>';
+	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Thu<\/td>';
+	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Fri<\/td>';
+	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Sat<\/td>';
+	calendarString += '<\/tr>';
+
+	thisDate == 1;
+
+	for (var i = 1; i <= 6; i++) {
+		calendarString += '<tr>';
+		for (var x = 1; x <= 7; x++) {
+			daycounter = (thisDate - firstDay)+1;
+			thisDate++;
+			if ((daycounter > numbDays) || (daycounter < 1)) {
+				calendarString += '<td align=\"center\" bgcolor=\"#888888\" height=\"30\" width=\"40\">&nbsp;<\/td>';
+			} else {
+					if ((todaysDay == x) && (todaysDate == daycounter) && (todaysMonth == monthNum)) {
+						calendarString += '<td align=\"center\" bgcolor=\"#AAFFAA\" height=\"30\" width=\"40\"><a href=\"javascript:showevents(' + daycounter + ',' + monthNum + ',' + yearNum + ')\">' + daycounter + '<\/a><\/td>';
+					}
+ 					else	calendarString += '<td align=\"center\" bgcolor=\"#FFFFC8\" height=\"30\" width=\"40\"><a href=\"javascript:showevents(' + daycounter + ',' + monthNum + ',' + yearNum + ')\">' + daycounter + '<\/a><\/td>';
+				
+			}
+		}
+		calendarString += '<\/tr>';
+	}
+
+	calendarString += '<tr><td colspan=\"7\" nowrap align=\"center\" valign=\"center\" bgcolor=\"#C8C896\" width=\"280\" height=\"22\"><a href=\"javascript:changedate(\'return\')\"><b>Show Current Date<\/b><\/a><\/td><\/tr><\/table>';
+
+	var object=document.getElementById('calendar');
+	object.innerHTML= calendarString;
+	thisDate = 1;
+}
+
+
+function checkevents(day,month,year,week,dayofweek) {
+var numevents = 0;
+var floater = 0;
+
+	for (var i = 0; i < events.length; i++) {
+		if (events[i][0] == "W") {
+			if ((events[i][2] == dayofweek)) numevents++;
+		}
+		else if (events[i][0] == "Y") {
+			if ((events[i][2] == day) && (events[i][1] == month)) numevents++;
+		}
+		else if (events[i][0] == "F") {
+			if ((events[i][1] == 3) && (events[i][2] == 0) && (events[i][3] == 0) ) {
+				easter(year);
+				if (easterday == day && eastermonth == month) numevents++;
+			} else {
+				floater = floatingholiday(year,events[i][1],events[i][2],events[i][3]);
+				if ((month == 5) && (events[i][1] == 5) && (events[i][2] == 4) && (events[i][3] == 2)) {
+					if ((floater + 7 <= 31) && (day == floater + 7)) {
+						numevents++;
+					} else if ((floater + 7 > 31) && (day == floater)) numevents++;
+				} else if ((events[i][1] == month) && (floater == day)) numevents++;
+			}
+		}
+		else if ((events[i][2] == day) && (events[i][1] == month) && (events[i][3] == year)) {
+			numevents++;
+		}
+	}
+
+	if (numevents == 0) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
+function showevents(day,month,year) {
+var theevent = "";
+var floater = 0;
+
+document.getElementById("input").innerHTML = "Reservation for: <b>"+day+"/"+month+"/"+year+"</b>";
+sday=day;
+smonth=month;
+syear=year;
+var empty=1;
+for (var i = 0; i<events.length; i++)
+{   
+	if(day==events[i][5] && month==events[i][6] && year==events[i][7]){
+		theevent += "Name: " + events[i][1] + '\n';
+		theevent += 'Start Time: ' + events[i][2] + '\n';
+		theevent += 'Ending Time: ' + events[i][3] + '\n';
+		theevent += 'Description: ' + events[i][4] + '\n';
+		theevent += '\n -------------- \n\n';
+		empty=0;
+	}
+}
+if (empty){
+	document.forms.eventform.eventlist.value = "Available";
+}
+else{
+	document.forms.eventform.eventlist.value = theevent;
+}
+	
+}
+
+function register(form)
+{
+    var test = form.inputbox.value;
+    alert("Your reservation has been completed, " + test + ".");
+	events.push(["Room1",form.inputbox.value,form.time.value,form.time2.value,"reserved",sday,smonth,syear]);
+	showevents(sday,smonth,syear)
+}
+
+</script>
+<div class="row">
+	<div class="col-xs-12 col-s-12 col-md-3 col-lg-3">
+		<h3>Select a date</h3>
+
+	</div>
+	<div class="col-xs-12 col-s-12 col-md-9 col-lg-9">
+		<button style="position: relative; left: 0; margin-left: 50%;" [routerLink]="['/details']">Go to details</button>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-s-12 col-md-12 col-lg-12">
+			<table id="evtcal" border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tbody>
+					<tr>
+						<td style="padding: 3px;" align="center" bgcolor="#aaddff" valign="top" width="314">
+							<div id="calendar"><!--  Dynamically Filled --></div>
+							You can move to a different month or year by clicking on the buttons or return to today's date by clicking "Show Current Date".</td>
+						<td width="10">&nbsp;</td>
+						<td style="padding: 3px;" align="center" bgcolor="#0097c1" valign="top" width="260"><b>Intructions:</b><br />Click a highlighted date on the calendar to see a list of events on that day in the box below.<br /><br />
+							<form id="eventform" name="eventform" action="#" method="get">
+								<textarea name="eventlist" cols="30" rows="20" wrap="soft">Auto filled when clicking on date.</textarea>
+							</form>
+						</td>
+					</tr>
+			        <tr height="10"></tr>
+			        <tr>
+			            <td style="padding: 3px;" width="314" bgcolor="#c8ffdd" align="left">
+			                <form id="inputform" name="inputform" action="#" method="get" align="center">
+			                    <div align="left" id="input">Reservation for: <b>-/-/-</b></div>
+								Name:<br>
+			                    <input type="text" name="inputbox" value=""><p>
+			                        Start:<br>
+			                        <input type="time" name="time" onclick="">
+			                    <p>
+			                        End:<br>
+			                        <input type="time" name="time2" onclick="">
+			                    <p>
+			                        <input type="button" name="button" value="Reserve" onclick="register(this.form)">
+			                    <p>
+			                </form>
+			            </td>
+			        </tr>
+
+				</tbody>
+			</table>
+	</div>
+</div>

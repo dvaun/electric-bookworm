@@ -1,0 +1,30 @@
+<form>
+    <section class="form-block">
+        <label>Reservation Details</label>
+        <div class="form-group">
+          <label for="formFields_1">Date and Time</label>
+          <input type="text" id="formFields_2" placeholder="Date" size="15">
+          <input type="text" id="formFields_3" placeholder="Time" size="15">
+        </div>
+        <div class="form-group">
+            <label for="aForm_1">Purpose for reservation:</label>
+            <div class="select">
+                <select id="aForm_3">
+                    <option>Studying</option>
+                    <option>Reading</option>
+                    <option>Group project</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="aForm_4">Miscellaneous information</label>
+            <textarea id="aForm_4" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="formFields_8">Contact email</label>
+          <input type="text" id="formFields_8" placeholder="Email" size="30">
+        </div>
+        <button [routerLink]="['/thanks']" class="btn btn-primary">Confirm</button>
+    </section>
+</form>
